@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stellar Executor - O executor mais avançado do Roblox</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .aurora-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            filter: blur(2px);
+        }
+        
+        .aurora-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: all 0.5s ease-out;
+        }
+        
+        .cursor-glow {
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            filter: blur(48px);
+            transition: all 0.3s ease-out;
+            pointer-events: none;
+        }
+        
+        .animate-bounce {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% {
+                transform: translate3d(0,0,0);
+            }
+            40%, 43% {
+                transform: translate3d(0,-30px,0);
+            }
+            70% {
+                transform: translate3d(0,-15px,0);
+            }
+            90% {
+                transform: translate3d(0,-4px,0);
+            }
+        }
+        
+        .card-hover {
+            transition: all 0.5s ease;
+        }
+        
+        .card-hover:hover {
+            transform: scale(1.05) translateY(-8px);
+        }
+        
+        .showcase-card:hover {
+            transform: scale(1.05) rotate(1deg);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(to right, #f3f4f6, #9ca3af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-text-title {
+            background: linear-gradient(to right, #ffffff, #e5e7eb, #d1d5db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-text-subtitle {
+            background: linear-gradient(to right, #9ca3af, #6b7280);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .showcase-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="bg-black text-white overflow-x-hidden">
+    <!-- Aurora Background -->
+    <div class="aurora-bg">
+        <div class="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-800 to-black"></div>
+        <div id="aurora1" class="aurora-layer opacity-40"></div>
+        <div id="aurora2" class="aurora-layer opacity-30"></div>
+        <div id="aurora3" class="aurora-layer opacity-20"></div>
+        <div id="cursorGlow" class="cursor-glow bg-gray-400/15"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="relative z-50 p-6">
+        <nav class="flex items-center justify-between max-w-7xl mx-auto">
+            <div class="flex items-center space-x-3">
+                <!-- Logo -->
+                <div class="relative">
+                    <div class="w-12 h-12 bg-gradient-to-r from-gray-400 to-gray-600 rounded-xl flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-gray-300/20 to-transparent"></div>
+                        <i data-lucide="sparkles" class="w-7 h-7 text-white relative z-10"></i>
+                        <div class="absolute top-1 right-1 w-2 h-2 bg-white rounded-full opacity-80"></div>
+                        <div class="absolute bottom-2 left-2 w-1 h-1 bg-gray-200 rounded-full opacity-60"></div>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-2xl font-bold gradient-text">STELLAR</span>
+                    <span class="text-xs text-gray-500 -mt-1">EXECUTOR</span>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-6">
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#showcase" class="hover:text-gray-400 transition-colors">Showcase</a>
+                    <a href="#features" class="hover:text-gray-400 transition-colors">Features</a>
+                    <a href="#profile" class="hover:text-gray-400 transition-colors">Perfil</a>
+                    <a href="#download" class="hover:text-gray-400 transition-colors">Download</a>
+                </div>
+
+                <!-- Language Selector -->
+                <div class="flex items-center space-x-2 bg-gray-800/50 rounded-lg p-2">
+                    <i data-lucide="globe" class="w-4 h-4 text-gray-400"></i>
+                    <select id="languageSelect" class="bg-transparent text-white text-sm border-none outline-none cursor-pointer">
+                        <option value="pt" class="bg-gray-800">Português</option>
+                        <option value="en" class="bg-gray-800">English</option>
+                    </select>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative z-10 pt-20 pb-32 px-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="opacity-0 translate-y-10 transition-all duration-1000" id="heroContent">
+                <div class="mb-6 inline-flex items-center bg-gray-500/20 text-gray-300 border border-gray-500/30 px-4 py-2 rounded-full">
+                    <i data-lucide="rocket" class="w-4 h-4 mr-2"></i>
+                    <span id="versionText">Versão 1.0 Beta</span>
+                </div>
+
+                <h1 class="text-6xl md:text-8xl font-bold mb-6">
+                    <span class="gradient-text-title">STELLAR</span>
+                    <br>
+                    <span class="gradient-text-subtitle">EXECUTOR</span>
+                </h1>
+
+                <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+                    <span id="description">O executor mais avançado e poderoso do Roblox.</span>
+                    <br>
+                    <span class="text-gray-400" id="performance">Performance incomparável</span> 
+                    <span id="withText">com</span>
+                    <span class="text-gray-500" id="security">segurança máxima.</span>
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <button onclick="window.open('https://work.ink/21jr/vr9fdirb', '_blank')" class="bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-700 hover:to-gray-900 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-2xl hover:shadow-gray-500/25 transition-all duration-300 transform hover:scale-105">
+                        <i data-lucide="download" class="w-5 h-5 mr-2 inline"></i>
+                        <span id="downloadNow">Download Agora</span>
+                    </button>
+
+                    <button class="border border-gray-500/50 text-gray-300 hover:bg-gray-500/10 px-8 py-4 text-lg rounded-xl transition-all duration-300 bg-transparent">
+                        <i data-lucide="play" class="w-5 h-5 mr-2 inline"></i>
+                        <span id="viewDemo">Ver Demo</span>
+                    </button>
+                </div>
+
+                <!-- Discord Button -->
+                <div class="mt-8">
+                    <button onclick="window.open('https://discord.gg/tN2EREGE', '_blank')" class="bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-700 hover:to-gray-900 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-2xl hover:shadow-gray-500/25 transition-all duration-300 transform hover:scale-105">
+                        <i data-lucide="message-circle" class="w-5 h-5 mr-2 inline"></i>
+                        <span id="discordButton">Entre em nosso serv do Discord!!</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i data-lucide="chevron-down" class="w-8 h-8 text-gray-400"></i>
+        </div>
+    </section>
+
+    <!-- Profile Section -->
+    <section id="profile" class="relative z-10 py-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-300 to-gray-500 bg-clip-text text-transparent">
+                    <span id="profileTitle">Perfil do Desenvolvedor</span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto" id="profileDesc">Conheça a mente por trás do Stellar Executor</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-gray-900/50 to-black/50 border border-gray-700/50 hover:border-gray-600/50 transition-all duration-500 transform hover:scale-105 group rounded-lg p-8">
+                <div class="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+                    <!-- Profile Avatar -->
+                    <div class="relative">
+                        <div class="w-32 h-32 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full flex items-center justify-center relative overflow-hidden group-hover:from-gray-300 group-hover:to-gray-500 transition-all duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-br from-gray-300/20 to-transparent"></div>
+                            <i data-lucide="sparkles" class="w-16 h-16 text-white relative z-10"></i>
+                            <div class="absolute top-4 right-4 w-4 h-4 bg-white rounded-full opacity-80"></div>
+                            <div class="absolute bottom-6 left-6 w-2 h-2 bg-gray-200 rounded-full opacity-60"></div>
+                        </div>
+                        <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-gray-900 flex items-center justify-center">
+                            <div class="w-3 h-3 bg-white rounded-full"></div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Info -->
+                    <div class="flex-1 text-center md:text-left">
+                        <h3 class="text-3xl font-bold mb-2 bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
+                            STELLAR
+                        </h3>
+                        <p class="text-gray-400 text-lg mb-4" id="profileJobTitle">Desenvolvedor Principal & Fundador</p>
+                        <p class="text-gray-300 mb-6 leading-relaxed" id="profileBio">
+                            Especialista em desenvolvimento de executores com mais de 1 anos de experiência. Apaixonado por criar ferramentas poderosas e seguras para a comunidade.
+                        </p>
+
+                        <!-- Profile Stats -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                            <div class="text-center">
+                                <div class="flex items-center justify-center mb-2">
+                                    <i data-lucide="map-pin" class="w-4 h-4 text-gray-400 mr-1"></i>
+                                </div>
+                                <p class="text-gray-300 text-sm" id="profileLocation">Brasil</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="flex items-center justify-center mb-2">
+                                    <i data-lucide="calendar" class="w-4 h-4 text-gray-400 mr-1"></i>
+                                </div>
+                                <p class="text-gray-300 text-sm" id="profileJoined">Membro desde 2024</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="flex items-center justify-center mb-2">
+                                    <i data-lucide="code" class="w-4 h-4 text-gray-400 mr-1"></i>
+                                </div>
+                                <p class="text-gray-300 text-sm" id="profileProjects">1+ Projetos</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="flex items-center justify-center mb-2">
+                                    <i data-lucide="user" class="w-4 h-4 text-gray-400 mr-1"></i>
+                                </div>
+                                <p class="text-gray-300 text-sm" id="profileFollowers">100+ Seguidores</p>
+                            </div>
+                        </div>
+
+                        <!-- Social Links -->
+                        <div class="flex justify-center md:justify-start space-x-4">
+                            <button onclick="window.open('https://github.com/Vinizin4', '_blank')" class="border border-gray-500/50 text-gray-300 hover:bg-gray-500/10 transition-all duration-300 bg-transparent px-4 py-2 rounded text-sm">
+                                <i data-lucide="github" class="w-4 h-4 mr-2 inline"></i>
+                                GitHub
+                            </button>
+                            <button onclick="window.open('https://discord.gg/tN2EREGE', '_blank')" class="border border-gray-500/50 text-gray-300 hover:bg-gray-500/10 transition-all duration-300 bg-transparent px-4 py-2 rounded text-sm">
+                                <i data-lucide="message-circle" class="w-4 h-4 mr-2 inline"></i>
+                                Discord
+                            </button>
+                            <button onclick="window.open('https://www.youtube.com/@V4mpzzxx', '_blank')" class="border border-gray-500/50 text-gray-300 hover:bg-gray-500/10 transition-all duration-300 bg-transparent px-4 py-2 rounded text-sm">
+                                <i data-lucide="play" class="w-4 h-4 mr-2 inline"></i>
+                                YouTube
+                            </button>
+                        </div>
+
+                        <!-- Mensagem adicional -->
+                        <div class="mt-6 p-4 bg-gray-800/30 rounded-lg border border-gray-700/50">
+                            <p class="text-gray-300 text-center md:text-left text-sm" id="profileMessage">
+                                Caso queira obter mais informações sobre nós e sobre os executores entre em nosso discord.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Showcase Section -->
+    <section id="showcase" class="relative z-10 py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-300 to-gray-500 bg-clip-text text-transparent">
+                    Showcase
+                </h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto" id="showcaseDesc">
+                    Veja a interface moderna e intuitiva do Stellar Executor em ação
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- First showcase item with the executor image -->
+                <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/20 to-gray-800/20 border border-gray-500/20 hover:border-gray-400/40 transition-all duration-500 transform hover:scale-105 hover:rotate-1 showcase-card">
+                    <div class="aspect-video bg-gradient-to-br from-gray-500/10 to-gray-600/10 flex items-center justify-center group-hover:from-gray-500/20 group-hover:to-gray-600/20 transition-all duration-500 overflow-hidden">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%7BC76B5446-F6F2-4DAA-BC7E-8FD28F83E4DD%7D-WuLFHiYSc7UScFU9ea0hgQiNo7oRZd.png" alt="Stellar Executor Interface" class="showcase-image group-hover:scale-110 transition-transform duration-500" crossorigin="anonymous">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-white group-hover:text-gray-300 transition-colors duration-300" id="showcaseItem1Title">Interface Principal</h3>
+                        <p class="text-gray-400 group-hover:text-gray-300 transition-colors duration-300" id="showcaseItem1Desc">Design moderno e intuitivo</p>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-gray-500/0 via-gray-500/5 to-gray-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                </div>
+
+                <!-- Other showcase items -->
+                <div id="showcaseGrid" class="contents">
+                    <!-- Other showcase items will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="relative z-10 py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-300 to-gray-500 bg-clip-text text-transparent">
+                    <span id="featuresTitle">Features Incríveis</span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto" id="featuresDesc">
+                    Descubra todas as funcionalidades que fazem do Stellar o melhor executor
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="featuresGrid">
+                <!-- Features will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="relative z-10 py-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-300 to-gray-500 bg-clip-text text-transparent">
+                    <span id="chooseMethod">Escolha seu Método</span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto" id="chooseMethodDesc">
+                    Selecione o método de download que preferir para obter o Stellar Executor
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-8 max-w-md mx-auto">
+                <div onclick="window.open('https://work.ink/21jr/vr9fdirb', '_blank')" class="bg-gradient-to-br from-gray-900/50 to-black/50 border border-gray-700/50 hover:border-gray-600/50 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 group cursor-pointer rounded-lg">
+                    <div class="text-center p-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-gray-600 to-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:shadow-lg transition-all duration-300">
+                            <i data-lucide="download" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white group-hover:text-gray-200 transition-colors duration-300 mb-4">
+                            Work.ink
+                        </h3>
+                        <p class="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 mb-6" id="workinkDesc">
+                            Download direto e seguro
+                        </p>
+                        <button class="w-full bg-gradient-to-r from-gray-600 to-gray-800 hover:shadow-lg transition-all duration-300 transform group-hover:scale-105 text-white py-3 px-6 rounded-lg">
+                            <i data-lucide="download" class="w-4 h-4 mr-2 inline"></i>
+                            <span id="downloadVia">Baixar via</span> Work.ink
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <p class="text-gray-400 mb-4" id="allMethodsSafe">Todos os métodos são seguros e verificados</p>
+                <div class="flex justify-center items-center space-x-4">
+                    <div class="border border-gray-500/50 text-gray-400 px-3 py-1 rounded-full text-sm">
+                        <i data-lucide="shield" class="w-4 h-4 mr-1 inline"></i>
+                        <span id="verified">Verificado</span>
+                    </div>
+                    <div class="border border-gray-500/50 text-gray-400 px-3 py-1 rounded-full text-sm">
+                        <i data-lucide="zap" class="w-4 h-4 mr-1 inline"></i>
+                        <span id="fast">Rápido</span>
+                    </div>
+                    <div class="border border-gray-500/50 text-gray-400 px-3 py-1 rounded-full text-sm">
+                        <i data-lucide="star" class="w-4 h-4 mr-1 inline"></i>
+                        <span id="reliable">Confiável</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 py-12 px-6 border-t border-gray-800/50">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="flex items-center justify-center space-x-3 mb-6">
+                <div class="relative">
+                    <div class="w-10 h-10 bg-gradient-to-r from-gray-400 to-gray-600 rounded-xl flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-gray-300/20 to-transparent"></div>
+                        <i data-lucide="sparkles" class="w-6 h-6 text-white relative z-10"></i>
+                        <div class="absolute top-1 right-1 w-1.5 h-1.5 bg-white rounded-full opacity-80"></div>
+                        <div class="absolute bottom-1.5 left-1.5 w-1 h-1 bg-gray-200 rounded-full opacity-60"></div>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-xl font-bold gradient-text">STELLAR</span>
+                    <span class="text-xs text-gray-500 -mt-1">EXECUTOR</span>
+                </div>
+            </div>
+
+            <p class="text-gray-400 mb-4" id="footerDesc">O executor mais avançado para suas necessidades</p>
+            <p class="text-gray-500 text-sm" id="copyright">© 2025 Stellar Executor. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Mouse position tracking
+        let mouseX = 0, mouseY = 0;
+        let time = 0;
+
+        // Language translations
+        const translations = {
+            pt: {
+                version: "Versão 1.0 Beta",
+                description: "O executor mais avançado e poderoso do Roblox.",
+                performance: "Performance incomparável",
+                security: "segurança máxima.",
+                withText: "com",
+                downloadNow: "Download Agora",
+                viewDemo: "Ver Demo",
+                discordButton: "Entre em nosso serv do Discord!!",
+                profileTitle: "Perfil do Desenvolvedor",
+                profileDesc: "Conheça a mente por trás do Stellar Executor",
+                profileJobTitle: "Desenvolvedor Principal & Fundador",
+                profileBio: "Especialista em desenvolvimento de executores com mais de 1 anos de experiência. Apaixonado por criar ferramentas poderosas e seguras para a comunidade.",
+                profileLocation: "Brasil",
+                profileJoined: "Membro desde 2024",
+                profileProjects: "1+ Projetos",
+                profileFollowers: "100+ Seguidores",
+                profileMessage: "Caso queira obter mais informações sobre nós e sobre os executores entre em nosso discord.",
+                showcaseDesc: "Veja a interface moderna e intuitiva do Stellar Executor em ação",
+                featuresTitle: "Features Incríveis",
+                featuresDesc: "Descubra todas as funcionalidades que fazem do Stellar o melhor executor",
+                chooseMethod: "Escolha seu Método",
+                chooseMethodDesc: "Selecione o método de download que preferir para obter o Stellar Executor",
+                workinkDesc: "Download direto e seguro",
+                downloadVia: "Baixar via",
+                allMethodsSafe: "Todos os métodos são seguros e verificados",
+                verified: "Verificado",
+                fast: "Rápido",
+                reliable: "Confiável",
+                footerDesc: "O executor mais avançado para suas necessidades",
+                copyright: "© 2025 Stellar Executor. Todos os direitos reservados.",
+                features: [
+                    { title: "Ultra Rápido", description: "Execução instantânea de scripts com performance otimizada" },
+                    { title: "100% Seguro", description: "Proteção avançada contra detecção e banimentos" },
+                    { title: "Multi-Core", description: "Suporte completo para processamento paralelo" },
+                    { title: "Script Hub", description: "Biblioteca integrada com milhares de scripts" },
+                    { title: "Customizável", description: "Interface totalmente personalizável ao seu gosto" },
+                    { title: "Atualizações", description: "Updates automáticos e suporte 24/7" }
+                ],
+                showcase: [
+                    { title: "Interface Principal", description: "Design moderno e intuitivo" },
+                    { title: "Script Editor", description: "Editor avançado com syntax highlighting" },
+                    { title: "Configurações", description: "Painel de controle completo" },
+                    { title: "Script Hub", description: "Biblioteca de scripts integrada" }
+                ]
+            },
+            en: {
+                version: "Version 1.0 Beta",
+                description: "The most advanced and powerful Roblox executor.",
+                performance: "Unmatched performance",
+                security: "maximum security.",
+                withText: "with",
+                downloadNow: "Download Now",
+                viewDemo: "View Demo",
+                discordButton: "Join our Discord server!!",
+                profileTitle: "Developer Profile",
+                profileDesc: "Meet the mind behind Stellar Executor",
+                profileJobTitle: "Lead Developer & Founder",
+                profileBio: "Executor development specialist with over 1 years of experience. Passionate about creating powerful and secure tools for the community.",
+                profileLocation: "Brazil",
+                profileJoined: "Member since 2024",
+                profileProjects: "1+ Projects",
+                profileFollowers: "100+ Followers",
+                profileMessage: "If you want to get more information about us and about the executors join our discord.",
+                showcaseDesc: "See the modern and intuitive Stellar Executor interface in action",
+                featuresTitle: "Amazing Features",
+                featuresDesc: "Discover all the functionalities that make Stellar the best executor",
+                chooseMethod: "Choose Your Method",
+                chooseMethodDesc: "Select your preferred download method to get Stellar Executor",
+                workinkDesc: "Direct and secure download",
+                downloadVia: "Download via",
+                allMethodsSafe: "All methods are safe and verified",
+                verified: "Verified",
+                fast: "Fast",
+                reliable: "Reliable",
+                footerDesc: "The most advanced executor for your needs",
+                copyright: "© 2025 Stellar Executor. All rights reserved.",
+                features: [
+                    { title: "Ultra Fast", description: "Instant script execution with optimized performance" },
+                    { title: "100% Safe", description: "Advanced protection against detection and bans" },
+                    { title: "Multi-Core", description: "Full support for parallel processing" },
+                    { title: "Script Hub", description: "Integrated library with thousands of scripts" },
+                    { title: "Customizable", description: "Fully customizable interface to your taste" },
+                    { title: "Updates", description: "Automatic updates and 24/7 support" }
+                ],
+                showcase: [
+                    { title: "Main Interface", description: "Modern and intuitive design" },
+                    { title: "Script Editor", description: "Advanced editor with syntax highlighting" },
+                    { title: "Settings", description: "Complete control panel" },
+                    { title: "Script Hub", description: "Integrated script library" }
+                ]
+            }
+        };
+
+        let currentLang = 'pt';
+
+        // Mouse tracking
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            const cursorGlow = document.getElementById('cursorGlow');
+            cursorGlow.style.left = (mouseX - 160) + 'px';
+            cursorGlow.style.top = (mouseY - 160) + 'px';
+        });
+
+        // Aurora animation
+        function updateAurora() {
+            time += 1;
+            
+            const aurora1 = document.getElementById('aurora1');
+            const aurora2 = document.getElementById('aurora2');
+            const aurora3 = document.getElementById('aurora3');
+            
+            const angle1 = 90 + Math.sin(time * 0.02) * 30 + mouseX * 0.05;
+            const angle2 = 45 + Math.cos(time * 0.018) * 25 + mouseX * 0.03;
+            const angle3 = 135 + Math.sin(time * 0.01) * 20 - mouseX * 0.02;
+            
+            aurora1.style.background = `
+                linear-gradient(${angle1}deg,
+                    transparent 0%,
+                    rgba(156, 163, 175, 0.3) ${20 + Math.cos(time * 0.015) * 10}%,
+                    rgba(209, 213, 219, 0.2) ${40 + Math.sin(time * 0.01) * 15}%,
+                    transparent ${60 + Math.cos(time * 0.02) * 10}%,
+                    rgba(156, 163, 175, 0.25) ${80 + Math.sin(time * 0.025) * 5}%,
+                    transparent 100%
+                ),
+                linear-gradient(${angle2}deg,
+                    transparent 0%,
+                    rgba(209, 213, 219, 0.2) ${15 + Math.sin(time * 0.02) * 8}%,
+                    rgba(156, 163, 175, 0.3) ${35 + Math.cos(time * 0.012) * 12}%,
+                    transparent ${55 + Math.sin(time * 0.015) * 8}%,
+                    rgba(229, 231, 235, 0.15) ${75 + Math.cos(time * 0.01) * 6}%,
+                    transparent 100%
+                )
+            `;
+            
+            aurora2.style.background = `
+                linear-gradient(${angle3}deg,
+                    transparent 0%,
+                    rgba(229, 231, 235, 0.2) ${25 + Math.cos(time * 0.018) * 8}%,
+                    rgba(156, 163, 175, 0.25) ${45 + Math.sin(time * 0.014) * 10}%,
+                    transparent ${65 + Math.cos(time * 0.016) * 8}%,
+                    rgba(209, 213, 219, 0.15) ${85 + Math.sin(time * 0.012) * 5}%,
+                    transparent 100%
+                )
+            `;
+            
+            aurora3.style.background = `
+                radial-gradient(
+                    ellipse ${300 + Math.sin(time * 0.01) * 50}px ${150 + Math.cos(time * 0.015) * 30}px at ${50 + Math.sin(time * 0.008) * 20}% ${50 + Math.cos(time * 0.012) * 15}%,
+                    rgba(209, 213, 219, 0.4) 0%,
+                    rgba(156, 163, 175, 0.3) 30%,
+                    transparent 70%
+                ),
+                radial-gradient(
+                    ellipse ${200 + Math.cos(time * 0.012) * 40}px ${400 + Math.sin(time * 0.009) * 60}px at ${30 + Math.cos(time * 0.01) * 25}% ${70 + Math.sin(time * 0.014) * 20}%,
+                    rgba(156, 163, 175, 0.3) 0%,
+                    rgba(229, 231, 235, 0.2) 40%,
+                    transparent 80%
+                )
+            `;
+        }
+
+        // Language switching
+        function updateLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            
+            document.getElementById('versionText').textContent = t.version;
+            document.getElementById('description').textContent = t.description;
+            document.getElementById('performance').textContent = t.performance;
+            document.getElementById('security').textContent = t.security;
+            document.getElementById('withText').textContent = t.withText;
+            document.getElementById('downloadNow').textContent = t.downloadNow;
+            document.getElementById('viewDemo').textContent = t.viewDemo;
+            document.getElementById('discordButton').textContent = t.discordButton;
+            document.getElementById('profileTitle').textContent = t.profileTitle;
+            document.getElementById('profileDesc').textContent = t.profileDesc;
+            document.getElementById('profileJobTitle').textContent = t.profileJobTitle;
+            document.getElementById('profileBio').textContent = t.profileBio;
+            document.getElementById('profileLocation').textContent = t.profileLocation;
+            document.getElementById('profileJoined').textContent = t.profileJoined;
+            document.getElementById('profileProjects').textContent = t.profileProjects;
+            document.getElementById('profileFollowers').textContent = t.profileFollowers;
+            document.getElementById('profileMessage').textContent = t.profileMessage;
+            document.getElementById('showcaseDesc').textContent = t.showcaseDesc;
+            document.getElementById('featuresTitle').textContent = t.featuresTitle;
+            document.getElementById('featuresDesc').textContent = t.featuresDesc;
+            document.getElementById('chooseMethod').textContent = t.chooseMethod;
+            document.getElementById('chooseMethodDesc').textContent = t.chooseMethodDesc;
+            document.getElementById('workinkDesc').textContent = t.workinkDesc;
+            document.getElementById('downloadVia').textContent = t.downloadVia;
+            document.getElementById('allMethodsSafe').textContent = t.allMethodsSafe;
+            document.getElementById('verified').textContent = t.verified;
+            document.getElementById('fast').textContent = t.fast;
+            document.getElementById('reliable').textContent = t.reliable;
+            document.getElementById('footerDesc').textContent = t.footerDesc;
+            document.getElementById('copyright').textContent = t.copyright;
+            
+            // Update showcase titles
+            document.getElementById('showcaseItem1Title').textContent = t.showcase[0].title;
+            document.getElementById('showcaseItem1Desc').textContent = t.showcase[0].description;
+            
+            // Update features
+            const featuresGrid = document.getElementById('featuresGrid');
+            const featureIcons = ['zap', 'shield', 'cpu', 'code', 'settings', 'rocket'];
+            featuresGrid.innerHTML = '';
+            
+            t.features.forEach((feature, index) => {
+                const featureCard = document.createElement('div');
+                featureCard.className = 'bg-gradient-to-br from-gray-900/20 to-gray-800/20 border border-gray-500/20 hover:border-gray-400/40 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 group rounded-lg p-6';
+                featureCard.innerHTML = `
+                    <div class="w-16 h-16 bg-gradient-to-r from-gray-500/20 to-gray-600/20 rounded-2xl flex items-center justify-center mb-4 group-hover:from-gray-500/30 group-hover:to-gray-600/30 transition-all duration-300">
+                        <i data-lucide="${featureIcons[index]}" class="w-8 h-8 text-gray-400 group-hover:text-gray-300 transition-colors duration-300"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white group-hover:text-gray-300 transition-colors duration-300 mb-2">${feature.title}</h3>
+                    <p class="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">${feature.description}</p>
+                `;
+                featuresGrid.appendChild(featureCard);
+            });
+            
+            // Update remaining showcase items (skip the first one as it has the image)
+            const showcaseGrid = document.getElementById('showcaseGrid');
+            showcaseGrid.innerHTML = '';
+            
+            t.showcase.slice(1).forEach((item, index) => {
+                const showcaseCard = document.createElement('div');
+                showcaseCard.className = 'group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/20 to-gray-800/20 border border-gray-500/20 hover:border-gray-400/40 transition-all duration-500 transform hover:scale-105 hover:rotate-1 showcase-card';
+                showcaseCard.innerHTML = `
+                    <div class="aspect-video bg-gradient-to-br from-gray-500/10 to-gray-600/10 flex items-center justify-center group-hover:from-gray-500/20 group-hover:to-gray-600/20 transition-all duration-500">
+                        <i data-lucide="image" class="w-16 h-16 text-gray-400 group-hover:text-gray-300 transition-colors duration-300"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-white group-hover:text-gray-300 transition-colors duration-300">${item.title}</h3>
+                        <p class="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">${item.description}</p>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-gray-500/0 via-gray-500/5 to-gray-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                `;
+                showcaseGrid.appendChild(showcaseCard);
+            });
+            
+            // Reinitialize icons
+            lucide.createIcons();
+        }
+
+        // Language selector event
+        document.getElementById('languageSelect').addEventListener('change', (e) => {
+            updateLanguage(e.target.value);
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show hero content
+            setTimeout(() => {
+                document.getElementById('heroContent').classList.remove('opacity-0', 'translate-y-10');
+                document.getElementById('heroContent').classList.add('opacity-100', 'translate-y-0');
+            }, 500);
+            
+            // Initialize language
+            updateLanguage('pt');
+            
+            // Start aurora animation
+            setInterval(updateAurora, 50);
+        });
+    </script>
+</body>
+</html>
