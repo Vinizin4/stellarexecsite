@@ -18,6 +18,14 @@ let executorStatus = 'needs-update'; // ← MUDE AQUI
 
 ```javascript
 statusNeedsUpdate: "Atualizando", // ← MUDE AQUI
+
+
+working 
+
+needs-update
+
+not-working
+
 ```
 
 ## **3. Para mudar o texto em inglês:**
