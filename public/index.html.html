@@ -93,12 +93,76 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
+        
         .showcase-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
             border-radius: 8px;
+        }
+        
+        .profile-card {
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.8) 0%, rgba(17, 24, 39, 0.9) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(75, 85, 99, 0.3);
+        }
+        
+        .profile-avatar {
+            background: linear-gradient(135deg, #6b7280 0%, #374151 100%);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .stat-card {
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid rgba(75, 85, 99, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .social-btn {
+            background: rgba(31, 41, 55, 0.6);
+            border: 1px solid rgba(75, 85, 99, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .social-btn:hover {
+            background: rgba(55, 65, 81, 0.8);
+            border-color: rgba(156, 163, 175, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease-out;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+        .stagger-6 { transition-delay: 0.6s; }
+
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            transform: scale(1.05) translateY(-2px);
+        }
+
+        .nav-link:hover .nav-icon {
+            transform: rotate(12deg);
+        }
+
+        .parallax {
+            transition: transform 0.1s ease-out;
         }
     </style>
 </head>
@@ -130,15 +194,25 @@
                     <span class="text-xs text-gray-500 -mt-1">EXECUTOR</span>
                 </div>
             </div>
-
             <div class="flex items-center space-x-6">
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#showcase" class="hover:text-gray-400 transition-colors">Showcase</a>
-                    <a href="#features" class="hover:text-gray-400 transition-colors">Features</a>
-                    <a href="#profile" class="hover:text-gray-400 transition-colors">Perfil</a>
-                    <a href="#download" class="hover:text-gray-400 transition-colors">Download</a>
+                    <a href="#showcase" class="nav-link flex items-center space-x-2 hover:text-gray-400">
+                        <i data-lucide="image" class="nav-icon w-4 h-4 transition-transform duration-300"></i>
+                        <span>Showcase</span>
+                    </a>
+                    <a href="#features" class="nav-link flex items-center space-x-2 hover:text-gray-400">
+                        <i data-lucide="star" class="nav-icon w-4 h-4 transition-transform duration-300"></i>
+                        <span>Features</span>
+                    </a>
+                    <a href="#profile" class="nav-link flex items-center space-x-2 hover:text-gray-400">
+                        <i data-lucide="users" class="nav-icon w-4 h-4 transition-transform duration-300"></i>
+                        <span>Perfil</span>
+                    </a>
+                    <a href="#download" class="nav-link flex items-center space-x-2 hover:text-gray-400">
+                        <i data-lucide="download" class="nav-icon w-4 h-4 transition-transform duration-300"></i>
+                        <span>Download</span>
+                    </a>
                 </div>
-
                 <!-- Language Selector -->
                 <div class="flex items-center space-x-2 bg-gray-800/50 rounded-lg p-2">
                     <i data-lucide="globe" class="w-4 h-4 text-gray-400"></i>
@@ -152,50 +226,47 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="relative z-10 pt-20 pb-32 px-6">
+    <section id="hero" class="parallax relative z-10 pt-20 pb-32 px-6">
         <div class="max-w-7xl mx-auto text-center">
-            <div class="opacity-0 translate-y-10 transition-all duration-1000" id="heroContent">
-                <div class="mb-6 inline-flex items-center bg-gray-500/20 text-gray-300 border border-gray-500/30 px-4 py-2 rounded-full">
+            <div class="mb-6 flex items-center justify-center gap-4">
+                <div class="inline-flex items-center bg-gray-500/20 text-gray-300 border border-gray-500/30 px-4 py-2 rounded-full">
                     <i data-lucide="rocket" class="w-4 h-4 mr-2"></i>
                     <span id="versionText">Versão 1.0 Beta</span>
                 </div>
-
-                <h1 class="text-6xl md:text-8xl font-bold mb-6">
-                    <span class="gradient-text-title">STELLAR</span>
-                    <br>
-                    <span class="gradient-text-subtitle">EXECUTOR</span>
-                </h1>
-
-                <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
-                    <span id="description">O executor mais avançado e poderoso do Roblox.</span>
-                    <br>
-                    <span class="text-gray-400" id="performance">Performance incomparável</span> 
-                    <span id="withText">com</span>
-                    <span class="text-gray-500" id="security">segurança máxima.</span>
-                </p>
-
-                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <button onclick="window.open('https://work.ink/21jr/vr9fdirb', '_blank')" class="bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-700 hover:to-gray-900 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-2xl hover:shadow-gray-500/25 transition-all duration-300 transform hover:scale-105">
-                        <i data-lucide="download" class="w-5 h-5 mr-2 inline"></i>
-                        <span id="downloadNow">Download Agora</span>
-                    </button>
-
-                    <button class="border border-gray-500/50 text-gray-300 hover:bg-gray-500/10 px-8 py-4 text-lg rounded-xl transition-all duration-300 bg-transparent">
-                        <i data-lucide="play" class="w-5 h-5 mr-2 inline"></i>
-                        <span id="viewDemo">Ver Demo</span>
-                    </button>
-                </div>
-
-                <!-- Discord Button -->
-                <div class="mt-8">
-                    <button onclick="window.open('https://discord.gg/tN2EREGE', '_blank')" class="bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-700 hover:to-gray-900 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-2xl hover:shadow-gray-500/25 transition-all duration-300 transform hover:scale-105">
-                        <i data-lucide="message-circle" class="w-5 h-5 mr-2 inline"></i>
-                        <span id="discordButton">Entre em nosso serv do Discord!!</span>
-                    </button>
+                <div id="statusBadge" class="inline-flex items-center border px-4 py-2 rounded-full bg-green-500/20 text-green-300 border-green-500/30">
+                    <div class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                    <span id="statusText">Funcionando</span>
                 </div>
             </div>
+            <h1 class="text-6xl md:text-8xl font-bold mb-6">
+                <span class="gradient-text-title">STELLAR</span>
+                <br>
+                <span class="gradient-text-subtitle">EXECUTOR</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+                <span id="description">O executor mais avançado e poderoso do Roblox.</span>
+                <br>
+                <span class="text-gray-400" id="performance">Performance incomparável</span> 
+                <span id="withText">com</span>
+                <span class="text-gray-500" id="security">segurança máxima.</span>
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <button onclick="window.open('https://work.ink/21jr/vr9fdirb', '_blank')" class="bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-700 hover:to-gray-900 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-2xl hover:shadow-gray-500/25 transition-all duration-300 transform hover:scale-105">
+                    <i data-lucide="download" class="w-5 h-5 mr-2 inline"></i>
+                    <span id="downloadNow">Download Agora</span>
+                </button>
+                <button class="border border-gray-500/50 text-gray-300 hover:bg-gray-500/10 px-8 py-4 text-lg rounded-xl transition-all duration-300 bg-transparent">
+                    <i data-lucide="play" class="w-5 h-5 mr-2 inline"></i>
+                    <span id="viewDemo">Ver Demo</span>
+                </button>
+            </div>
+            <div class="mt-8">
+                <button onclick="window.open('https://discord.gg/E48eyD4hYT', '_blank')" class="bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-700 hover:to-gray-900 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-2xl hover:shadow-gray-500/25 transition-all duration-300 transform hover:scale-105">
+                    <i data-lucide="message-circle" class="w-5 h-5 mr-2 inline"></i>
+                    <span id="discordButton">Entre em nosso serv do Discord!!</span>
+                </button>
+            </div>
         </div>
-
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
             <i data-lucide="chevron-down" class="w-8 h-8 text-gray-400"></i>
         </div>
@@ -203,88 +274,115 @@
 
     <!-- Profile Section -->
     <section id="profile" class="relative z-10 py-20 px-6">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-16">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16 scroll-animate">
                 <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-300 to-gray-500 bg-clip-text text-transparent">
                     <span id="profileTitle">Perfil do Desenvolvedor</span>
                 </h2>
                 <p class="text-xl text-gray-300 max-w-2xl mx-auto" id="profileDesc">Conheça a mente por trás do Stellar Executor</p>
             </div>
-
-            <div class="bg-gradient-to-br from-gray-900/50 to-black/50 border border-gray-700/50 hover:border-gray-600/50 transition-all duration-500 transform hover:scale-105 group rounded-lg p-8">
-                <div class="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
-                    <!-- Profile Avatar -->
-                    <div class="relative">
-                        <div class="w-32 h-32 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full flex items-center justify-center relative overflow-hidden group-hover:from-gray-300 group-hover:to-gray-500 transition-all duration-300">
+            <div class="profile-card rounded-2xl p-8 md:p-12 hover:scale-[1.02] transition-all duration-500 group scroll-animate stagger-1">
+                <div class="flex flex-col lg:flex-row items-center lg:items-start space-y-8 lg:space-y-0 lg:space-x-12">
+                    <!-- Enhanced Profile Avatar -->
+                    <div class="relative flex-shrink-0">
+                        <div class="profile-avatar w-40 h-40 rounded-full flex items-center justify-center relative overflow-hidden group-hover:scale-105 transition-all duration-500">
                             <div class="absolute inset-0 bg-gradient-to-br from-gray-300/20 to-transparent"></div>
-                            <i data-lucide="sparkles" class="w-16 h-16 text-white relative z-10"></i>
-                            <div class="absolute top-4 right-4 w-4 h-4 bg-white rounded-full opacity-80"></div>
-                            <div class="absolute bottom-6 left-6 w-2 h-2 bg-gray-200 rounded-full opacity-60"></div>
+                            <i data-lucide="sparkles" class="w-20 h-20 text-white relative z-10"></i>
+                            <div class="absolute top-6 right-6 w-6 h-6 bg-white rounded-full opacity-80"></div>
+                            <div class="absolute bottom-8 left-8 w-3 h-3 bg-gray-200 rounded-full opacity-60"></div>
                         </div>
-                        <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-gray-900 flex items-center justify-center">
-                            <div class="w-3 h-3 bg-white rounded-full"></div>
+                        <!-- Online Status -->
+                        <div class="absolute -bottom-2 -right-2 w-12 h-12 bg-green-500 rounded-full border-4 border-gray-900 flex items-center justify-center shadow-lg">
+                            <div class="w-4 h-4 bg-white rounded-full"></div>
+                        </div>
+                        <!-- Verified Badge -->
+                        <div class="absolute -top-2 -right-2 w-10 h-10 bg-blue-500 rounded-full border-4 border-gray-900 flex items-center justify-center shadow-lg">
+                            <i data-lucide="check" class="w-5 h-5 text-white"></i>
                         </div>
                     </div>
-
-                    <!-- Profile Info -->
-                    <div class="flex-1 text-center md:text-left">
-                        <h3 class="text-3xl font-bold mb-2 bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
-                            STELLAR
-                        </h3>
-                        <p class="text-gray-400 text-lg mb-4" id="profileJobTitle">Desenvolvedor Principal & Fundador</p>
-                        <p class="text-gray-300 mb-6 leading-relaxed" id="profileBio">
-                            Especialista em desenvolvimento de executores com mais de 1 anos de experiência. Apaixonado por criar ferramentas poderosas e seguras para a comunidade.
+                    <!-- Enhanced Profile Info -->
+                    <div class="flex-1 text-center lg:text-left">
+                        <!-- Name and Title -->
+                        <div class="mb-6">
+                            <h3 class="text-4xl font-bold mb-3 bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
+                                STELLAR                            
+                            </h3>
+                            <div class="flex items-center justify-center lg:justify-start space-x-2 mb-2">
+                                <p class="text-gray-400 text-xl" id="profileJobTitle">Desenvolvedor Principal & Fundador</p>
+                                <i data-lucide="crown" class="w-5 h-5 text-yellow-500"></i>
+                            </div>
+                            <div class="flex items-center justify-center lg:justify-start space-x-2">
+                                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                <span class="text-green-400 text-sm">Online agora</span>
+                            </div>
+                        </div>
+                        <!-- Bio -->
+                        <p class="text-gray-300 mb-8 leading-relaxed text-lg" id="profileBio">
+                            Especialista em desenvolvimento de executores com mais de 3 anos de experiência. Apaixonado por criar ferramentas poderosas e seguras para a comunidade Roblox.
                         </p>
-
-                        <!-- Profile Stats -->
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                            <div class="text-center">
+                        <!-- Enhanced Stats Grid -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                            <div class="stat-card rounded-xl p-4 text-center hover:bg-gray-700/30 transition-all duration-300">
                                 <div class="flex items-center justify-center mb-2">
-                                    <i data-lucide="map-pin" class="w-4 h-4 text-gray-400 mr-1"></i>
+                                    <i data-lucide="map-pin" class="w-5 h-5 text-gray-400 mr-2"></i>
                                 </div>
-                                <p class="text-gray-300 text-sm" id="profileLocation">Brasil</p>
+                                <p class="text-gray-300 font-semibold" id="profileLocation">Brasil</p>
+                                <p class="text-gray-500 text-xs">Localização</p>
                             </div>
-                            <div class="text-center">
+                            <div class="stat-card rounded-xl p-4 text-center hover:bg-gray-700/30 transition-all duration-300">
                                 <div class="flex items-center justify-center mb-2">
-                                    <i data-lucide="calendar" class="w-4 h-4 text-gray-400 mr-1"></i>
+                                    <i data-lucide="calendar" class="w-5 h-5 text-gray-400 mr-2"></i>
                                 </div>
-                                <p class="text-gray-300 text-sm" id="profileJoined">Membro desde 2024</p>
+                                <p class="text-gray-300 font-semibold" id="profileJoined">2024</p>
+                                <p class="text-gray-500 text-xs">Membro desde</p>
                             </div>
-                            <div class="text-center">
+                            <div class="stat-card rounded-xl p-4 text-center hover:bg-gray-700/30 transition-all duration-300">
                                 <div class="flex items-center justify-center mb-2">
-                                    <i data-lucide="code" class="w-4 h-4 text-gray-400 mr-1"></i>
+                                    <i data-lucide="code" class="w-5 h-5 text-gray-400 mr-2"></i>
                                 </div>
-                                <p class="text-gray-300 text-sm" id="profileProjects">1+ Projetos</p>
+                                <p class="text-gray-300 font-semibold" id="profileProjects">5+</p>
+                                <p class="text-gray-500 text-xs">Projetos</p>
                             </div>
-                            <div class="text-center">
+                            <div class="stat-card rounded-xl p-4 text-center hover:bg-gray-700/30 transition-all duration-300">
                                 <div class="flex items-center justify-center mb-2">
-                                    <i data-lucide="user" class="w-4 h-4 text-gray-400 mr-1"></i>
+                                    <i data-lucide="users" class="w-5 h-5 text-gray-400 mr-2"></i>
                                 </div>
-                                <p class="text-gray-300 text-sm" id="profileFollowers">100+ Seguidores</p>
+                                <p class="text-gray-300 font-semibold" id="profileFollowers">1K+</p>
+                                <p class="text-gray-500 text-xs">Seguidores</p>
                             </div>
                         </div>
-
-                        <!-- Social Links -->
-                        <div class="flex justify-center md:justify-start space-x-4">
-                            <button onclick="window.open('https://github.com/Vinizin4', '_blank')" class="border border-gray-500/50 text-gray-300 hover:bg-gray-500/10 transition-all duration-300 bg-transparent px-4 py-2 rounded text-sm">
-                                <i data-lucide="github" class="w-4 h-4 mr-2 inline"></i>
-                                GitHub
+                        <!-- Enhanced Social Links -->
+                        <div class="flex flex-wrap justify-center lg:justify-start gap-3 mb-8">
+                            <button onclick="window.open('https://github.com/Vinizin4', '_blank')" class="social-btn px-6 py-3 rounded-xl text-sm font-medium flex items-center space-x-2">
+                                <i data-lucide="github" class="w-4 h-4"></i>
+                                <span>GitHub</span>
                             </button>
-                            <button onclick="window.open('https://discord.gg/tN2EREGE', '_blank')" class="border border-gray-500/50 text-gray-300 hover:bg-gray-500/10 transition-all duration-300 bg-transparent px-4 py-2 rounded text-sm">
-                                <i data-lucide="message-circle" class="w-4 h-4 mr-2 inline"></i>
-                                Discord
+                            <button onclick="window.open('https://discord.gg/E48eyD4hYT', '_blank')" class="social-btn px-6 py-3 rounded-xl text-sm font-medium flex items-center space-x-2">
+                                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                <span>Discord</span>
                             </button>
-                            <button onclick="window.open('https://www.youtube.com/@V4mpzzxx', '_blank')" class="border border-gray-500/50 text-gray-300 hover:bg-gray-500/10 transition-all duration-300 bg-transparent px-4 py-2 rounded text-sm">
-                                <i data-lucide="play" class="w-4 h-4 mr-2 inline"></i>
-                                YouTube
+                            <button onclick="window.open('https://www.youtube.com/@V4mpzzxx', '_blank')" class="social-btn px-6 py-3 rounded-xl text-sm font-medium flex items-center space-x-2">
+                                <i data-lucide="play" class="w-4 h-4"></i>
+                                <span>YouTube</span>
+                            </button>
+                            <button onclick="window.open('https://discord.gg/E48eyD4hYT', '_blank')" class="social-btn px-6 py-3 rounded-xl text-sm font-medium flex items-center space-x-2">
+                                <i data-lucide="twitter" class="w-4 h-4"></i>
+                                <span>Twitter</span>
                             </button>
                         </div>
-
-                        <!-- Mensagem adicional -->
-                        <div class="mt-6 p-4 bg-gray-800/30 rounded-lg border border-gray-700/50">
-                            <p class="text-gray-300 text-center md:text-left text-sm" id="profileMessage">
-                                Caso queira obter mais informações sobre nós e sobre os executores entre em nosso discord.
-                            </p>
+                        <!-- Enhanced Message Card -->
+                        <div class="bg-gradient-to-r from-gray-800/40 to-gray-700/40 rounded-xl p-6 border border-gray-600/30 backdrop-filter backdrop-blur-sm">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="info" class="w-5 h-5 text-blue-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Junte-se à nossa comunidade!</h4>
+                                    <p class="text-gray-300 text-sm leading-relaxed" id="profileMessage">
+                                        Caso queira obter mais informações sobre nós e sobre os executores, entre em nosso Discord. Lá você encontrará suporte, atualizações e uma comunidade ativa!
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -295,32 +393,67 @@
     <!-- Showcase Section -->
     <section id="showcase" class="relative z-10 py-20 px-6">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16 scroll-animate">
                 <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-300 to-gray-500 bg-clip-text text-transparent">
-                    Showcase
+                    <span id="showcaseTitle">Showcase Interativo</span>
                 </h2>
                 <p class="text-xl text-gray-300 max-w-2xl mx-auto" id="showcaseDesc">
-                    Veja a interface moderna e intuitiva do Stellar Executor em ação
+                    Explore a interface moderna e intuitiva do Stellar Executor
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- First showcase item with the executor image -->
-                <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/20 to-gray-800/20 border border-gray-500/20 hover:border-gray-400/40 transition-all duration-500 transform hover:scale-105 hover:rotate-1 showcase-card">
-                    <div class="aspect-video bg-gradient-to-br from-gray-500/10 to-gray-600/10 flex items-center justify-center group-hover:from-gray-500/20 group-hover:to-gray-600/20 transition-all duration-500 overflow-hidden">
-                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%7BC76B5446-F6F2-4DAA-BC7E-8FD28F83E4DD%7D-WuLFHiYSc7UScFU9ea0hgQiNo7oRZd.png" alt="Stellar Executor Interface" class="showcase-image group-hover:scale-110 transition-transform duration-500" crossorigin="anonymous">
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2 text-white group-hover:text-gray-300 transition-colors duration-300" id="showcaseItem1Title">Interface Principal</h3>
-                        <p class="text-gray-400 group-hover:text-gray-300 transition-colors duration-300" id="showcaseItem1Desc">Design moderno e intuitivo</p>
-                    </div>
-                    <div class="absolute inset-0 bg-gradient-to-r from-gray-500/0 via-gray-500/5 to-gray-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                </div>
+            <!-- Main Showcase Display -->
+            <div class="mb-12 scroll-animate stagger-1">
+                <div class="relative bg-gradient-to-br from-gray-900/50 to-gray-800/50 rounded-3xl p-8 border border-gray-700/50 backdrop-blur-sm">
+                    <!-- Navigation Buttons -->
+                    <button onclick="prevShowcase()" class="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/80 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm border border-gray-600/50">
+                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                    </button>
+                    <button onclick="nextShowcase()" class="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/80 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm border border-gray-600/50">
+                        <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                    </button>
 
-                <!-- Other showcase items -->
-                <div id="showcaseGrid" class="contents">
-                    <!-- Other showcase items will be populated by JavaScript -->
+                    <!-- Main Image Display -->
+                    <div id="showcaseMain" class="relative aspect-video rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800/30 to-gray-900/30 mb-6 transition-all duration-500">
+                        <img id="showcaseImage" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%7BC76B5446-F6F2-4DAA-BC7E-8FD28F83E4DD%7D-WuLFHiYSc7UScFU9ea0hgQiNo7oRZd.png" alt="Interface Principal" class="w-full h-full object-cover transition-all duration-500 hover:scale-105" crossorigin="anonymous">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+
+                        <!-- Image Overlay Info -->
+                        <div id="showcaseInfo" class="absolute bottom-4 left-4 right-4 transition-all duration-300">
+                            <div class="bg-black/60 backdrop-blur-md rounded-xl p-4 border border-gray-600/30">
+                                <h3 id="showcaseItemTitle" class="text-2xl font-bold text-white mb-2">Interface Principal</h3>
+                                <p id="showcaseItemDesc" class="text-gray-300 mb-3">Design moderno e intuitivo com tema escuro elegante</p>
+                                <p id="showcaseItemDetails" class="text-gray-400 text-sm">Interface principal do Stellar Executor com design moderno, botões intuitivos e organização clara dos elementos.</p>
+                            </div>
+                        </div>
+
+                        <!-- Fullscreen Button -->
+                        <button onclick="toggleZoom()" class="absolute top-4 right-4 bg-black/60 hover:bg-black/80 text-white p-2 rounded-lg transition-all duration-300 backdrop-blur-sm">
+                            <svg id="zoomIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Progress Indicators -->
+                    <div id="showcaseIndicators" class="flex justify-center space-x-2 mb-4">
+                        <!-- Indicators will be generated by JavaScript -->
+                    </div>
+
+                    <!-- Counter -->
+                    <div class="text-center text-gray-400 text-sm">
+                        <span id="showcaseCounter">1 / 3</span>
+                        <div id="loadingIndicator" class="hidden flex items-center justify-center mt-2 text-blue-400">
+                            <div class="w-2 h-2 bg-blue-400 rounded-full animate-pulse mr-2"></div>
+                            <span class="text-xs">Carregando...</span>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Thumbnail Grid -->
+            <div id="thumbnailGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 scroll-animate stagger-2">
+                <!-- Thumbnails will be generated by JavaScript -->
             </div>
         </div>
     </section>
@@ -328,7 +461,7 @@
     <!-- Features Section -->
     <section id="features" class="relative z-10 py-20 px-6">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16 scroll-animate">
                 <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-300 to-gray-500 bg-clip-text text-transparent">
                     <span id="featuresTitle">Features Incríveis</span>
                 </h2>
@@ -336,8 +469,7 @@
                     Descubra todas as funcionalidades que fazem do Stellar o melhor executor
                 </p>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="featuresGrid">
+            <div id="featuresGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Features will be populated by JavaScript -->
             </div>
         </div>
@@ -346,7 +478,7 @@
     <!-- Download Section -->
     <section id="download" class="relative z-10 py-20 px-6">
         <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16 scroll-animate">
                 <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-300 to-gray-500 bg-clip-text text-transparent">
                     <span id="chooseMethod">Escolha seu Método</span>
                 </h2>
@@ -354,8 +486,7 @@
                     Selecione o método de download que preferir para obter o Stellar Executor
                 </p>
             </div>
-
-            <div class="grid grid-cols-1 gap-8 max-w-md mx-auto">
+            <div class="grid grid-cols-1 gap-8 max-w-md mx-auto scroll-animate stagger-1">
                 <div onclick="window.open('https://work.ink/21jr/vr9fdirb', '_blank')" class="bg-gradient-to-br from-gray-900/50 to-black/50 border border-gray-700/50 hover:border-gray-600/50 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 group cursor-pointer rounded-lg">
                     <div class="text-center p-6">
                         <div class="w-16 h-16 bg-gradient-to-r from-gray-600 to-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:shadow-lg transition-all duration-300">
@@ -374,7 +505,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="text-center mt-12">
                 <p class="text-gray-400 mb-4" id="allMethodsSafe">Todos os métodos são seguros e verificados</p>
                 <div class="flex justify-center items-center space-x-4">
@@ -412,7 +542,6 @@
                     <span class="text-xs text-gray-500 -mt-1">EXECUTOR</span>
                 </div>
             </div>
-
             <p class="text-gray-400 mb-4" id="footerDesc">O executor mais avançado para suas necessidades</p>
             <p class="text-gray-500 text-sm" id="copyright">© 2025 Stellar Executor. Todos os direitos reservados.</p>
         </div>
@@ -422,9 +551,14 @@
         // Initialize Lucide icons
         lucide.createIcons();
 
-        // Mouse position tracking
+        // Global variables
         let mouseX = 0, mouseY = 0;
         let time = 0;
+        let currentLang = 'pt';
+        let currentShowcase = 0;
+        let isZoomed = false;
+        let isTransitioning = false;
+        let executorStatus = 'working';
 
         // Language translations
         const translations = {
@@ -440,13 +574,14 @@
                 profileTitle: "Perfil do Desenvolvedor",
                 profileDesc: "Conheça a mente por trás do Stellar Executor",
                 profileJobTitle: "Desenvolvedor Principal & Fundador",
-                profileBio: "Especialista em desenvolvimento de executores com mais de 1 anos de experiência. Apaixonado por criar ferramentas poderosas e seguras para a comunidade.",
+                profileBio: "Especialista em desenvolvimento de executores com mais de 3 anos de experiência. Apaixonado por criar ferramentas poderosas e seguras para a comunidade Roblox.",
                 profileLocation: "Brasil",
-                profileJoined: "Membro desde 2024",
-                profileProjects: "1+ Projetos",
-                profileFollowers: "100+ Seguidores",
-                profileMessage: "Caso queira obter mais informações sobre nós e sobre os executores entre em nosso discord.",
-                showcaseDesc: "Veja a interface moderna e intuitiva do Stellar Executor em ação",
+                profileJoined: "2024",
+                profileProjects: "5+",
+                profileFollowers: "1K+",
+                profileMessage: "Caso queira obter mais informações sobre nós e sobre os executores, entre em nosso Discord. Lá você encontrará suporte, atualizações e uma comunidade ativa!",
+                showcaseTitle: "Showcase Interativo",
+                showcaseDesc: "Explore a interface moderna e intuitiva do Stellar Executor",
                 featuresTitle: "Features Incríveis",
                 featuresDesc: "Descubra todas as funcionalidades que fazem do Stellar o melhor executor",
                 chooseMethod: "Escolha seu Método",
@@ -459,19 +594,36 @@
                 reliable: "Confiável",
                 footerDesc: "O executor mais avançado para suas necessidades",
                 copyright: "© 2025 Stellar Executor. Todos os direitos reservados.",
+                statusWorking: "Funcionando",
+                statusNeedsUpdate: "Precisa Atualizar",
+                statusNotWorking: "Não Funcionando",
                 features: [
-                    { title: "Ultra Rápido", description: "Execução instantânea de scripts com performance otimizada" },
-                    { title: "100% Seguro", description: "Proteção avançada contra detecção e banimentos" },
-                    { title: "Multi-Core", description: "Suporte completo para processamento paralelo" },
-                    { title: "Script Hub", description: "Biblioteca integrada com milhares de scripts" },
-                    { title: "Customizável", description: "Interface totalmente personalizável ao seu gosto" },
-                    { title: "Atualizações", description: "Updates automáticos e suporte 24/7" }
+                    { title: "Ultra Rápido", description: "Execução instantânea de scripts com performance otimizada", icon: "zap" },
+                    { title: "100% Seguro", description: "Proteção avançada contra detecção e banimentos", icon: "shield" },
+                    { title: "Multi-Core", description: "Suporte completo para processamento paralelo", icon: "cpu" },
+                    { title: "Script Hub", description: "Biblioteca integrada com milhares de scripts", icon: "code" },
+                    { title: "Customizável", description: "Interface totalmente personalizável ao seu gosto", icon: "settings" },
+                    { title: "Atualizações", description: "Updates automáticos e suporte 24/7", icon: "rocket" }
                 ],
                 showcase: [
-                    { title: "Interface Principal", description: "Design moderno e intuitivo" },
-                    { title: "Script Editor", description: "Editor avançado com syntax highlighting" },
-                    { title: "Configurações", description: "Painel de controle completo" },
-                    { title: "Script Hub", description: "Biblioteca de scripts integrada" }
+                    {
+                        title: "Interface Principal",
+                        description: "Design moderno e intuitivo com tema escuro elegante",
+                        details: "Interface principal do Stellar Executor com design moderno, botões intuitivos e organização clara dos elementos.",
+                        image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%7BC76B5446-F6F2-4DAA-BC7E-8FD28F83E4DD%7D-WuLFHiYSc7UScFU9ea0hgQiNo7oRZd.png"
+                    },
+                    {
+                        title: "Script Editor",
+                        description: "Editor avançado com syntax highlighting e autocomplete",
+                        details: "Editor de código profissional com destaque de sintaxe, numeração de linhas e recursos avançados de edição.",
+                        image: "https://via.placeholder.com/600x400/374151/ffffff?text=Script+Editor"
+                    },
+                    {
+                        title: "Script Hub",
+                        description: "Biblioteca integrada com milhares de scripts verificados",
+                        details: "Acesso a uma vasta biblioteca de scripts organizados por categoria, todos testados e verificados.",
+                        image: "https://via.placeholder.com/600x400/374151/ffffff?text=Script+Hub"
+                    }
                 ]
             },
             en: {
@@ -486,13 +638,14 @@
                 profileTitle: "Developer Profile",
                 profileDesc: "Meet the mind behind Stellar Executor",
                 profileJobTitle: "Lead Developer & Founder",
-                profileBio: "Executor development specialist with over 1 years of experience. Passionate about creating powerful and secure tools for the community.",
+                profileBio: "Executor development specialist with over 3 years of experience. Passionate about creating powerful and secure tools for the Roblox community.",
                 profileLocation: "Brazil",
-                profileJoined: "Member since 2024",
-                profileProjects: "1+ Projects",
-                profileFollowers: "100+ Followers",
-                profileMessage: "If you want to get more information about us and about the executors join our discord.",
-                showcaseDesc: "See the modern and intuitive Stellar Executor interface in action",
+                profileJoined: "2024",
+                profileProjects: "5+",
+                profileFollowers: "1K+",
+                profileMessage: "If you want to get more information about us and about the executors, join our Discord. There you will find support, updates and an active community!",
+                showcaseTitle: "Interactive Showcase",
+                showcaseDesc: "Explore the modern and intuitive Stellar Executor interface",
                 featuresTitle: "Amazing Features",
                 featuresDesc: "Discover all the functionalities that make Stellar the best executor",
                 chooseMethod: "Choose Your Method",
@@ -505,24 +658,39 @@
                 reliable: "Reliable",
                 footerDesc: "The most advanced executor for your needs",
                 copyright: "© 2025 Stellar Executor. All rights reserved.",
+                statusWorking: "Working",
+                statusNeedsUpdate: "Needs Update",
+                statusNotWorking: "Not Working",
                 features: [
-                    { title: "Ultra Fast", description: "Instant script execution with optimized performance" },
-                    { title: "100% Safe", description: "Advanced protection against detection and bans" },
-                    { title: "Multi-Core", description: "Full support for parallel processing" },
-                    { title: "Script Hub", description: "Integrated library with thousands of scripts" },
-                    { title: "Customizable", description: "Fully customizable interface to your taste" },
-                    { title: "Updates", description: "Automatic updates and 24/7 support" }
+                    { title: "Ultra Fast", description: "Instant script execution with optimized performance", icon: "zap" },
+                    { title: "100% Safe", description: "Advanced protection against detection and bans", icon: "shield" },
+                    { title: "Multi-Core", description: "Full support for parallel processing", icon: "cpu" },
+                    { title: "Script Hub", description: "Integrated library with thousands of scripts", icon: "code" },
+                    { title: "Customizable", description: "Fully customizable interface to your taste", icon: "settings" },
+                    { title: "Updates", description: "Automatic updates and 24/7 support", icon: "rocket" }
                 ],
                 showcase: [
-                    { title: "Main Interface", description: "Modern and intuitive design" },
-                    { title: "Script Editor", description: "Advanced editor with syntax highlighting" },
-                    { title: "Settings", description: "Complete control panel" },
-                    { title: "Script Hub", description: "Integrated script library" }
+                    {
+                        title: "Main Interface",
+                        description: "Modern and intuitive design with elegant dark theme",
+                        details: "Main interface of Stellar Executor with modern design, intuitive buttons and clear organization of elements.",
+                        image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%7BC76B5446-F6F2-4DAA-BC7E-8FD28F83E4DD%7D-WuLFHiYSc7UScFU9ea0hgQiNo7oRZd.png"
+                    },
+                    {
+                        title: "Script Editor",
+                        description: "Advanced editor with syntax highlighting and autocomplete",
+                        details: "Professional code editor with syntax highlighting, line numbering and advanced editing features.",
+                        image: "https://via.placeholder.com/600x400/374151/ffffff?text=Script+Editor"
+                    },
+                    {
+                        title: "Script Hub",
+                        description: "Integrated library with thousands of verified scripts",
+                        details: "Access to a vast library of scripts organized by category, all tested and verified.",
+                        image: "https://via.placeholder.com/600x400/374151/ffffff?text=Script+Hub"
+                    }
                 ]
             }
         };
-
-        let currentLang = 'pt';
 
         // Mouse tracking
         document.addEventListener('mousemove', (e) => {
@@ -534,6 +702,28 @@
             cursorGlow.style.top = (mouseY - 160) + 'px';
         });
 
+        // Scroll animations
+        function handleScrollAnimations() {
+            const elements = document.querySelectorAll('.scroll-animate');
+            elements.forEach(element => {
+                const rect = element.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+                
+                if (isVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // Parallax effect
+        function handleParallax() {
+            const scrollY = window.scrollY;
+            const hero = document.getElementById('hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrollY * 0.1}px)`;
+            }
+        }
+
         // Aurora animation
         function updateAurora() {
             time += 1;
@@ -542,54 +732,42 @@
             const aurora2 = document.getElementById('aurora2');
             const aurora3 = document.getElementById('aurora3');
             
-            const angle1 = 90 + Math.sin(time * 0.02) * 30 + mouseX * 0.05;
-            const angle2 = 45 + Math.cos(time * 0.018) * 25 + mouseX * 0.03;
-            const angle3 = 135 + Math.sin(time * 0.01) * 20 - mouseX * 0.02;
-            
-            aurora1.style.background = `
-                linear-gradient(${angle1}deg,
-                    transparent 0%,
-                    rgba(156, 163, 175, 0.3) ${20 + Math.cos(time * 0.015) * 10}%,
-                    rgba(209, 213, 219, 0.2) ${40 + Math.sin(time * 0.01) * 15}%,
-                    transparent ${60 + Math.cos(time * 0.02) * 10}%,
-                    rgba(156, 163, 175, 0.25) ${80 + Math.sin(time * 0.025) * 5}%,
-                    transparent 100%
-                ),
-                linear-gradient(${angle2}deg,
-                    transparent 0%,
-                    rgba(209, 213, 219, 0.2) ${15 + Math.sin(time * 0.02) * 8}%,
-                    rgba(156, 163, 175, 0.3) ${35 + Math.cos(time * 0.012) * 12}%,
-                    transparent ${55 + Math.sin(time * 0.015) * 8}%,
-                    rgba(229, 231, 235, 0.15) ${75 + Math.cos(time * 0.01) * 6}%,
-                    transparent 100%
-                )
-            `;
-            
-            aurora2.style.background = `
-                linear-gradient(${angle3}deg,
-                    transparent 0%,
-                    rgba(229, 231, 235, 0.2) ${25 + Math.cos(time * 0.018) * 8}%,
-                    rgba(156, 163, 175, 0.25) ${45 + Math.sin(time * 0.014) * 10}%,
-                    transparent ${65 + Math.cos(time * 0.016) * 8}%,
-                    rgba(209, 213, 219, 0.15) ${85 + Math.sin(time * 0.012) * 5}%,
-                    transparent 100%
-                )
-            `;
-            
-            aurora3.style.background = `
-                radial-gradient(
-                    ellipse ${300 + Math.sin(time * 0.01) * 50}px ${150 + Math.cos(time * 0.015) * 30}px at ${50 + Math.sin(time * 0.008) * 20}% ${50 + Math.cos(time * 0.012) * 15}%,
-                    rgba(209, 213, 219, 0.4) 0%,
-                    rgba(156, 163, 175, 0.3) 30%,
-                    transparent 70%
-                ),
-                radial-gradient(
-                    ellipse ${200 + Math.cos(time * 0.012) * 40}px ${400 + Math.sin(time * 0.009) * 60}px at ${30 + Math.cos(time * 0.01) * 25}% ${70 + Math.sin(time * 0.014) * 20}%,
-                    rgba(156, 163, 175, 0.3) 0%,
-                    rgba(229, 231, 235, 0.2) 40%,
-                    transparent 80%
-                )
-            `;
+            if (aurora1 && aurora2 && aurora3) {
+                const angle1 = 90 + Math.sin(time * 0.02) * 30 + mouseX * 0.05;
+                const angle2 = 45 + Math.cos(time * 0.018) * 25 + mouseX * 0.03;
+                const angle3 = 135 + Math.sin(time * 0.01) * 20 - mouseX * 0.02;
+                
+                aurora1.style.background = `
+                    linear-gradient(${angle1}deg,
+                        transparent 0%,
+                        rgba(156, 163, 175, 0.3) ${20 + Math.cos(time * 0.015) * 10}%,
+                        rgba(209, 213, 219, 0.2) ${40 + Math.sin(time * 0.01) * 15}%,
+                        transparent ${60 + Math.cos(time * 0.02) * 10}%,
+                        rgba(156, 163, 175, 0.25) ${80 + Math.sin(time * 0.025) * 5}%,
+                        transparent 100%
+                    )
+                `;
+                
+                aurora2.style.background = `
+                    linear-gradient(${angle3}deg,
+                        transparent 0%,
+                        rgba(229, 231, 235, 0.2) ${25 + Math.cos(time * 0.018) * 8}%,
+                        rgba(156, 163, 175, 0.25) ${45 + Math.sin(time * 0.014) * 10}%,
+                        transparent ${65 + Math.cos(time * 0.016) * 8}%,
+                        rgba(209, 213, 219, 0.15) ${85 + Math.sin(time * 0.012) * 5}%,
+                        transparent 100%
+                    )
+                `;
+                
+                aurora3.style.background = `
+                    radial-gradient(
+                        ellipse ${300 + Math.sin(time * 0.01) * 50}px ${150 + Math.cos(time * 0.015) * 30}px at ${50 + Math.sin(time * 0.008) * 20}% ${50 + Math.cos(time * 0.012) * 15}%,
+                        rgba(209, 213, 219, 0.4) 0%,
+                        rgba(156, 163, 175, 0.3) 30%,
+                        transparent 70%
+                    )
+                `;
+            }
         }
 
         // Language switching
@@ -597,6 +775,7 @@
             currentLang = lang;
             const t = translations[lang];
             
+            // Update all text elements
             document.getElementById('versionText').textContent = t.version;
             document.getElementById('description').textContent = t.description;
             document.getElementById('performance').textContent = t.performance;
@@ -614,6 +793,7 @@
             document.getElementById('profileProjects').textContent = t.profileProjects;
             document.getElementById('profileFollowers').textContent = t.profileFollowers;
             document.getElementById('profileMessage').textContent = t.profileMessage;
+            document.getElementById('showcaseTitle').textContent = t.showcaseTitle;
             document.getElementById('showcaseDesc').textContent = t.showcaseDesc;
             document.getElementById('featuresTitle').textContent = t.featuresTitle;
             document.getElementById('featuresDesc').textContent = t.featuresDesc;
@@ -628,21 +808,55 @@
             document.getElementById('footerDesc').textContent = t.footerDesc;
             document.getElementById('copyright').textContent = t.copyright;
             
-            // Update showcase titles
-            document.getElementById('showcaseItem1Title').textContent = t.showcase[0].title;
-            document.getElementById('showcaseItem1Desc').textContent = t.showcase[0].description;
+            // Update status
+            updateStatus();
             
             // Update features
+            updateFeatures();
+            
+            // Update showcase
+            updateShowcase();
+            
+            // Update thumbnails
+            updateThumbnails();
+        }
+
+        // Update status badge
+        function updateStatus() {
+            const t = translations[currentLang];
+            const statusBadge = document.getElementById('statusBadge');
+            const statusText = document.getElementById('statusText');
+            
+            statusBadge.className = 'inline-flex items-center border px-4 py-2 rounded-full ';
+            
+            switch(executorStatus) {
+                case 'working':
+                    statusBadge.className += 'bg-green-500/20 text-green-300 border-green-500/30';
+                    statusText.textContent = t.statusWorking;
+                    break;
+                case 'needs-update':
+                    statusBadge.className += 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
+                    statusText.textContent = t.statusNeedsUpdate;
+                    break;
+                case 'not-working':
+                    statusBadge.className += 'bg-red-500/20 text-red-300 border-red-500/30';
+                    statusText.textContent = t.statusNotWorking;
+                    break;
+            }
+        }
+
+        // Update features
+        function updateFeatures() {
+            const t = translations[currentLang];
             const featuresGrid = document.getElementById('featuresGrid');
-            const featureIcons = ['zap', 'shield', 'cpu', 'code', 'settings', 'rocket'];
             featuresGrid.innerHTML = '';
             
             t.features.forEach((feature, index) => {
                 const featureCard = document.createElement('div');
-                featureCard.className = 'bg-gradient-to-br from-gray-900/20 to-gray-800/20 border border-gray-500/20 hover:border-gray-400/40 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 group rounded-lg p-6';
+                featureCard.className = `bg-gradient-to-br from-gray-900/20 to-gray-800/20 border border-gray-500/20 hover:border-gray-400/40 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 group rounded-lg p-6 scroll-animate stagger-${index + 1}`;
                 featureCard.innerHTML = `
                     <div class="w-16 h-16 bg-gradient-to-r from-gray-500/20 to-gray-600/20 rounded-2xl flex items-center justify-center mb-4 group-hover:from-gray-500/30 group-hover:to-gray-600/30 transition-all duration-300">
-                        <i data-lucide="${featureIcons[index]}" class="w-8 h-8 text-gray-400 group-hover:text-gray-300 transition-colors duration-300"></i>
+                        <i data-lucide="${feature.icon}" class="w-8 h-8 text-gray-400 group-hover:text-gray-300 transition-colors duration-300"></i>
                     </div>
                     <h3 class="text-xl font-semibold text-white group-hover:text-gray-300 transition-colors duration-300 mb-2">${feature.title}</h3>
                     <p class="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">${feature.description}</p>
@@ -650,47 +864,136 @@
                 featuresGrid.appendChild(featureCard);
             });
             
-            // Update remaining showcase items (skip the first one as it has the image)
-            const showcaseGrid = document.getElementById('showcaseGrid');
-            showcaseGrid.innerHTML = '';
-            
-            t.showcase.slice(1).forEach((item, index) => {
-                const showcaseCard = document.createElement('div');
-                showcaseCard.className = 'group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/20 to-gray-800/20 border border-gray-500/20 hover:border-gray-400/40 transition-all duration-500 transform hover:scale-105 hover:rotate-1 showcase-card';
-                showcaseCard.innerHTML = `
-                    <div class="aspect-video bg-gradient-to-br from-gray-500/10 to-gray-600/10 flex items-center justify-center group-hover:from-gray-500/20 group-hover:to-gray-600/20 transition-all duration-500">
-                        <i data-lucide="image" class="w-16 h-16 text-gray-400 group-hover:text-gray-300 transition-colors duration-300"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2 text-white group-hover:text-gray-300 transition-colors duration-300">${item.title}</h3>
-                        <p class="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">${item.description}</p>
-                    </div>
-                    <div class="absolute inset-0 bg-gradient-to-r from-gray-500/0 via-gray-500/5 to-gray-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                `;
-                showcaseGrid.appendChild(showcaseCard);
-            });
-            
-            // Reinitialize icons
             lucide.createIcons();
         }
 
-        // Language selector event
+        // Showcase functions
+        function updateShowcase() {
+            const t = translations[currentLang];
+            const showcase = t.showcase[currentShowcase];
+            
+            document.getElementById('showcaseImage').src = showcase.image;
+            document.getElementById('showcaseImage').alt = showcase.title;
+            document.getElementById('showcaseItemTitle').textContent = showcase.title;
+            document.getElementById('showcaseItemDesc').textContent = showcase.description;
+            document.getElementById('showcaseItemDetails').textContent = showcase.details;
+            document.getElementById('showcaseCounter').textContent = `${currentShowcase + 1} / ${t.showcase.length}`;
+            
+            updateIndicators();
+        }
+
+        function updateIndicators() {
+            const t = translations[currentLang];
+            const indicators = document.getElementById('showcaseIndicators');
+            indicators.innerHTML = '';
+            
+            t.showcase.forEach((_, index) => {
+                const indicator = document.createElement('button');
+                indicator.className = `w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentShowcase ? 'bg-gray-400 scale-125' : 'bg-gray-600 hover:bg-gray-500'
+                }`;
+                indicator.onclick = () => setShowcase(index);
+                indicators.appendChild(indicator);
+            });
+        }
+
+        function updateThumbnails() {
+            const t = translations[currentLang];
+            const thumbnailGrid = document.getElementById('thumbnailGrid');
+            thumbnailGrid.innerHTML = '';
+            
+            t.showcase.forEach((item, index) => {
+                const thumbnail = document.createElement('button');
+                thumbnail.className = `group relative aspect-video rounded-xl overflow-hidden transition-all duration-300 ${
+                    index === currentShowcase ? 'ring-2 ring-gray-400 scale-105' : 'hover:scale-105 hover:ring-2 hover:ring-gray-500'
+                }`;
+                thumbnail.onclick = () => setShowcase(index);
+                thumbnail.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover transition-all duration-300 group-hover:brightness-110" crossorigin="anonymous">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-2 left-2 right-2">
+                        <h4 class="text-white text-xs font-semibold truncate">${item.title}</h4>
+                    </div>
+                    ${index === currentShowcase ? '<div class="absolute top-2 right-2"><div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div></div>' : ''}
+                `;
+                thumbnailGrid.appendChild(thumbnail);
+            });
+        }
+
+        function nextShowcase() {
+            if (isTransitioning) return;
+            const t = translations[currentLang];
+            setShowcase((currentShowcase + 1) % t.showcase.length);
+        }
+
+        function prevShowcase() {
+            if (isTransitioning) return;
+            const t = translations[currentLang];
+            setShowcase((currentShowcase - 1 + t.showcase.length) % t.showcase.length);
+        }
+
+        function setShowcase(index) {
+            if (isTransitioning || index === currentShowcase) return;
+            
+            isTransitioning = true;
+            document.getElementById('loadingIndicator').classList.remove('hidden');
+            document.getElementById('showcaseMain').style.opacity = '0.5';
+            document.getElementById('showcaseMain').style.transform = 'scale(0.95)';
+            document.getElementById('showcaseInfo').style.opacity = '0';
+            document.getElementById('showcaseInfo').style.transform = 'translateY(16px)';
+            
+            setTimeout(() => {
+                currentShowcase = index;
+                updateShowcase();
+                updateThumbnails();
+                
+                document.getElementById('showcaseMain').style.opacity = '1';
+                document.getElementById('showcaseMain').style.transform = 'scale(1)';
+                document.getElementById('showcaseInfo').style.opacity = '1';
+                document.getElementById('showcaseInfo').style.transform = 'translateY(0)';
+                document.getElementById('loadingIndicator').classList.add('hidden');
+                
+                isTransitioning = false;
+            }, 300);
+        }
+
+        function toggleZoom() {
+            isZoomed = !isZoomed;
+            const showcaseMain = document.getElementById('showcaseMain');
+            const zoomIcon = document.getElementById('zoomIcon');
+            
+            if (isZoomed) {
+                showcaseMain.style.transform = 'scale(1.1)';
+                showcaseMain.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.5)';
+                zoomIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>';
+            } else {
+                showcaseMain.style.transform = 'scale(1)';
+                showcaseMain.style.boxShadow = '';
+                zoomIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>';
+            }
+        }
+
+        // Event listeners
         document.getElementById('languageSelect').addEventListener('change', (e) => {
             updateLanguage(e.target.value);
         });
 
+        window.addEventListener('scroll', () => {
+            handleScrollAnimations();
+            handleParallax();
+        });
+
+        // Auto-advance showcase
+        setInterval(() => {
+            if (!isTransitioning && !isZoomed) {
+                nextShowcase();
+            }
+        }, 4000);
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            // Show hero content
-            setTimeout(() => {
-                document.getElementById('heroContent').classList.remove('opacity-0', 'translate-y-10');
-                document.getElementById('heroContent').classList.add('opacity-100', 'translate-y-0');
-            }, 500);
-            
-            // Initialize language
             updateLanguage('pt');
-            
-            // Start aurora animation
+            handleScrollAnimations();
             setInterval(updateAurora, 50);
         });
     </script>
